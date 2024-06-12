@@ -7,7 +7,7 @@ const Edit = () => {
     <div>
       <PostForm
         header="Edit Post"
-        bthText="Update"
+        btnText="Update"
         oldPostData={oldPostData.post}
         method="patch"
       />

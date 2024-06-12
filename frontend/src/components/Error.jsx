@@ -3,9 +3,13 @@ import { IoMdWarning } from "react-icons/io";
 
 const Error = () => {
   const error = useRouteError();
-  let errorMessage = "";
+  let errorMessage = "Something went wrong !!";
 
   if (error.status === 400) {
+    errorMessage = error.data.message;
+  }
+
+  if (error.status === 402) {
     errorMessage = error.data.message;
   }
 

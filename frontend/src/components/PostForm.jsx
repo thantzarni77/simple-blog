@@ -1,9 +1,20 @@
-import { Form, useActionData, Link, redirect } from "react-router-dom";
+import {
+  Form,
+  useActionData,
+  Link,
+  redirect,
+  useNavigate,
+  useNavigation,
+} from "react-router-dom";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { nanoid } from "nanoid";
+import { getToken } from "../utils/auth";
 
-const PostForm = ({ header, bthText, oldPostData, method }) => {
+const PostForm = ({ header, btnText, oldPostData, method }) => {
   const data = useActionData();
+  const navigate = useNavigate();
+  const navigation = useNavigation();
+  const isSubmitting = navigation.state === "submitting";
   return (
     <Form className="postFormContainer" method={method}>
       <div className="postTitle">
@@ -72,7 +83,9 @@ const PostForm = ({ header, bthText, oldPostData, method }) => {
           defaultValue={oldPostData ? oldPostData.description : ""}
         ></textarea>
       </div>
-      <button>{bthText}</button>
+      <button disabled={isSubmitting}>
+        {isSubmitting ? "SUBMITTING" : btnText}
+      </button>
     </Form>
   );
 };
@@ -102,6 +115,7 @@ export const action = async ({ request, params }) => {
     method,
     headers: {
       "Content-Type": "application/json",
+      Authorization: "Bearer " + getToken(),
     },
     body: JSON.stringify(post),
   });

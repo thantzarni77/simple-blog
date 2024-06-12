@@ -4,11 +4,15 @@ import {
   useSubmit,
   json,
   useRouteLoaderData,
+  useNavigate,
 } from "react-router-dom";
+import { getToken } from "../utils/auth";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { FaRegCalendarMinus } from "react-icons/fa6";
 
 const PostDetail = () => {
+  const navigate = useNavigate();
+  const isToken = useRouteLoaderData("root");
   const post = useRouteLoaderData("post-details");
 
   const submit = useSubmit();
@@ -41,12 +45,14 @@ const PostDetail = () => {
       </div>
       <img src={image} alt={title} />
       <p>{description}</p>
-      <div className="detailsFooter">
-        <Link to={"edit-post/"}>
-          <p>Edit</p>
-        </Link>
-        <p onClick={deleteHandler}>Delete</p>
-      </div>
+      {isToken && (
+        <div className="detailsFooter">
+          <Link to={"edit-post/"}>
+            <p>Edit</p>
+          </Link>
+          <p onClick={deleteHandler}>Delete</p>
+        </div>
+      )}
       <hr />
     </div>
   );
@@ -67,6 +73,9 @@ export const loader = async ({ request, params }) => {
 export const action = async ({ request, params }) => {
   const response = await fetch(`http://localhost:8080/posts/${params.id}`, {
     method: request.method,
+    headers: {
+      Authorization: "Bearer " + getToken(),
+    },
   });
 
   if (!response.ok) {

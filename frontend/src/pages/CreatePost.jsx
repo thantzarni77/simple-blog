@@ -3,7 +3,7 @@ import PostForm from "../components/PostForm";
 const CreatePost = () => {
   return (
     <div>
-      <PostForm header="Create Post" bthText="Create" method="post" />
+      <PostForm header="Create Post" btnText="Create" method="post" />
     </div>
   );
 };

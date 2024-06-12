@@ -1,29 +1,47 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Main from "./layout/Main";
-import Posts from "./pages/Posts";
+import Posts, { loader as PostsLoader } from "./pages/Posts";
 import CreatePost from "./pages/CreatePost";
-import { loader as PostsLoader } from "./pages/Posts";
-import {
+import PostDetail, {
   loader as SinglePostLoader,
   action as DeletePostAction,
 } from "./components/PostDetail";
 import { action as PostCreateAction } from "./components/PostForm";
 import { action as PostEditAction } from "./components/PostForm";
-import PostDetail from "./components/PostDetail";
 import Edit from "./pages/Edit";
 import Error from "./components/Error";
+import Auth, { action as AuthAction } from "./Auth";
+import { loader as LogoutLoader } from "./components/Logout";
+import { TokenLoader, checkTokenLoader } from "./utils/auth";
+import TokenFail from "./components/TokenFail";
 
 const router = createBrowserRouter([
   {
     path: "",
     element: <Main />,
     errorElement: <Error />,
+    id: "root",
+    loader: TokenLoader,
     children: [
       { index: true, element: <Posts />, loader: PostsLoader },
       {
         path: "/create-post",
         element: <CreatePost />,
         action: PostCreateAction,
+        loader: checkTokenLoader,
+      },
+      {
+        path: "/auth",
+        element: <Auth />,
+        action: AuthAction,
+      },
+      {
+        path: "/restricted",
+        element: <TokenFail />,
+      },
+      {
+        path: "/logout",
+        loader: LogoutLoader,
       },
       {
         path: ":id",
@@ -35,7 +53,12 @@ const router = createBrowserRouter([
             element: <PostDetail />,
             action: DeletePostAction,
           },
-          { path: "edit-post", element: <Edit />, action: PostEditAction },
+          {
+            path: "edit-post",
+            element: <Edit />,
+            action: PostEditAction,
+            loader: checkTokenLoader,
+          },
         ],
       },
     ],
