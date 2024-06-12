@@ -104,11 +104,11 @@ export const action = async ({ request, params }) => {
     description: postData.get("description"),
   };
 
-  let url = "http://localhost:8080/posts";
+  let url = `${import.meta.env.VITE_REACT_APP_DOMAIN}/posts`;
 
   if (method === "PATCH") {
     const id = params.id;
-    url = `http://localhost:8080/posts/${id}`;
+    url = `${import.meta.env.VITE_REACT_APP_DOMAIN}/posts/${id}`;
   }
 
   const response = await fetch(url, {

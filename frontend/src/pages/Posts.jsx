@@ -13,7 +13,9 @@ const Posts = () => {
 export default Posts;
 
 export const loader = async () => {
-  const response = await fetch("http://localhost:8080/posts");
+  const response = await fetch(
+    `${import.meta.env.VITE_REACT_APP_DOMAIN}/posts`
+  );
   if (!response.ok) {
   } else {
     const posts = await response.json();

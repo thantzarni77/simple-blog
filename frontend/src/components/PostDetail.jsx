@@ -61,7 +61,9 @@ const PostDetail = () => {
 export default PostDetail;
 
 export const loader = async ({ request, params }) => {
-  const response = await fetch(`http://localhost:8080/posts/${params.id}`);
+  const response = await fetch(
+    `${import.meta.env.VITE_REACT_APP_DOMAIN}/posts/${params.id}`
+  );
   if (!response.ok) {
     throw json({ message: "Failed to Load the Post" }, { status: 408 });
   } else {
@@ -71,12 +73,15 @@ export const loader = async ({ request, params }) => {
 };
 
 export const action = async ({ request, params }) => {
-  const response = await fetch(`http://localhost:8080/posts/${params.id}`, {
-    method: request.method,
-    headers: {
-      Authorization: "Bearer " + getToken(),
-    },
-  });
+  const response = await fetch(
+    `${import.meta.env.VITE_REACT_APP_DOMAIN}/posts/${params.id}`,
+    {
+      method: request.method,
+      headers: {
+        Authorization: "Bearer " + getToken(),
+      },
+    }
+  );
 
   if (!response.ok) {
     throw json(
