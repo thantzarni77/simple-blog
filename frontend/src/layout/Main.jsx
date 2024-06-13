@@ -18,7 +18,7 @@ const Main = () => {
   {
     setTimeout(() => {
       setLoading(false);
-    }, 8000);
+    }, 6000);
   }
 
   useEffect(() => {
