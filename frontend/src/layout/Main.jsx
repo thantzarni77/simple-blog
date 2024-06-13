@@ -5,13 +5,21 @@ import {
   useSubmit,
 } from "react-router-dom";
 import Navbar from "../components/Navbar";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getDuration } from "../utils/auth";
 
 const Main = () => {
   const submit = useSubmit();
   const { state } = useNavigation();
   const token = useLoaderData();
+
+  const [loading, setLoading] = useState(true);
+
+  {
+    setTimeout(() => {
+      setLoading(false);
+    }, 8000);
+  }
 
   useEffect(() => {
     if (!token) {
@@ -30,13 +38,21 @@ const Main = () => {
   }, [token, submit]);
   return (
     <div>
-      <Navbar />
-      {state === "loading" ? (
-        <div className="loaderContainer">
+      {loading ? (
+        <div className="loaderContainer mainLoader">
           <span className="loader"></span>
         </div>
       ) : (
-        <Outlet />
+        <div>
+          <Navbar />
+          {state === "loading" ? (
+            <div className="loaderContainer">
+              <span className="loader"></span>
+            </div>
+          ) : (
+            <Outlet />
+          )}
+        </div>
       )}
     </div>
   );

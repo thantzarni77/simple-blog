@@ -267,6 +267,10 @@ textarea:focus {
   justify-content: center;
 }
 
+.mainLoader {
+  margin: 40% 0;
+}
+
 .loader {
   animation: rotate 1s infinite;
   height: 50px;
